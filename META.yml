@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               WWW-LinkedIn
-version:            0.001
+version:            0.002
 abstract:           Simple interface to the LinkedIn OAuth API
 author:
     - John Drago <jdrago_999@yahoo.com>

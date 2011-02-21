@@ -11,7 +11,7 @@ use Digest::MD5 'md5_hex';
 use Digest::HMAC_SHA1;
 use MIME::Base64;
 
-our $VERSION = '0.001';
+our $VERSION = '0.002';
 
 
 sub new
@@ -65,6 +65,7 @@ sub get_request_token
   return {
     token   => $token,
     secret  => $token_secret,
+    url     => "https://www.linkedin.com/uas/oauth/authorize?oauth_token=$token",
   };
 }# end get_request_token()
 
@@ -174,7 +175,7 @@ Get the Request Token and Request Token Secret
   %>
   
   <!-- User must click on this link, login and "Authorize" your app to have access: -->
-  <a href="https://www.linkedin.com/uas/oauth/authorize?oauth_token=<%= $token->{token} %>">Login to LinkedIn</a>
+  <a href="<%= $token->{url} %>">Login to LinkedIn</a>
 
 =head2 Step 2
 
