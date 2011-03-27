@@ -11,7 +11,7 @@ use Digest::MD5 'md5_hex';
 use Digest::HMAC_SHA1;
 use MIME::Base64;
 
-our $VERSION = '0.002';
+our $VERSION = '0.003';
 
 
 sub new
@@ -59,8 +59,10 @@ sub get_request_token
   );
   $request->sign;
   my $res = LWP::UserAgent->new()->request(POST $request->to_url);
-  my ($token) = $res->content =~ m{token\=([^&]+)};
-  my ($token_secret) = $res->content =~ m{oauth_token_secret\=([^&]+)};
+  my ($token) = $res->content =~ m{token\=([^&]+)}
+    or confess "LinkedIn's API did not return a request token.  Instead, it returned this:\n" . $res->as_string;
+  my ($token_secret) = $res->content =~ m{oauth_token_secret\=([^&]+)}
+    or confess "LinkedIn's API did not return a request token secret.  Instead, it returned this:\n" . $res->as_string;
   
   return {
     token   => $token,
@@ -162,8 +164,8 @@ Get the Request Token and Request Token Secret
   <%
     use WWW::LinkedIn;
     my $li = WWW::LinkedIn->new(
-      consumer_key    => $consumer_key,
-      consumer_secret => $consumer_secret,
+      consumer_key    => $consumer_key,     # Your 'API Key'
+      consumer_secret => $consumer_secret,  # Your 'Secret Key'
     );
     my $token = $li->get_request_token(
       callback  => "http://www.example.com/v1/login/linkedin/"
