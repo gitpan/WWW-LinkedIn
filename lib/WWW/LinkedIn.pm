@@ -11,7 +11,7 @@ use Digest::MD5 'md5_hex';
 use Digest::HMAC_SHA1;
 use MIME::Base64;
 
-our $VERSION = '0.003';
+our $VERSION = '0.004';
 
 
 sub new
